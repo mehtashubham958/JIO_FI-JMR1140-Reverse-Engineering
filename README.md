@@ -1,3 +1,10 @@
+I tried to reverse engineer the Jio JMR1140, based on my finding its not possible to use it with another carrier due to * **QFPROM Fuse Configuration:** Hardware fuses enforce `SEC_BOOT2` authentication across all secondary boot stages.
+* **XPU Memory Protection:** Hardware bus firewalls prevent the Linux Application Processor from mapping modem DDR memory (`0x82a00000`–`0x869fffff`). Any attempt to access baseband RAM via `/dev/mem` triggers an immediate bus abort (`Code: e491e004`).
+* **Flash Patching Risk:** Any bit-level modification to `modem.b12` or `modem.b15` on flash partition `mtd10` invalidates the signed hash table (`modem.mdt`), causing TrustZone to reject the image and trigger an unrecoverable EDL boot-loop.
+
+Putting it out there if anyone is interested in hardware level analysis.
+
+
 # Master Progress & Forensic Evidence Synthesis Report: JioFi 4 (JMR1140 / MDM9607) Carrier Architecture & Multi-Carrier Compatibility
 
 **Device Under Test:** Reliance JioFi 4 (AM Telecom JMR1140 / AR5800RJ Mobile Wi-Fi Router)  
